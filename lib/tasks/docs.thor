@@ -325,7 +325,7 @@ class DocsCLI < Thor
       Thread.new do
         while doc = docs.shift
           status = begin
-            download_doc(doc)
+            local_download_doc(doc)
             'OK'
           rescue => e
             "FAILED (#{e.class}: #{e.message})"
@@ -338,7 +338,22 @@ class DocsCLI < Thor
 
   def download_doc(doc)
     target_path = File.join(Docs.store_path, doc.path)
+    puts "https://downloads.devdocs.io/#{doc.path}.tar.gz"
     URI.open "https://downloads.devdocs.io/#{doc.path}.tar.gz" do |file|
+      FileUtils.mkpath(target_path)
+      file.close
+      tar = UnixUtils.gunzip(file.path)
+      dir = UnixUtils.untar(tar)
+      FileUtils.rm_rf(target_path)
+      FileUtils.mv(dir, target_path)
+      FileUtils.rm(file.path)
+    end
+  end
+
+  def local_download_doc(doc)
+    target_path = File.join(Docs.store_path, doc.path)
+    puts "https://downloads.devdocs.io/#{doc.path}.tar.gz"
+    URI.open "#{Dir.home}/Downloads/#{doc.path.tr('~', '_')}.tar.gz" do |file|
       FileUtils.mkpath(target_path)
       file.close
       tar = UnixUtils.gunzip(file.path)
