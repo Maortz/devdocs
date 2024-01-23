@@ -19,7 +19,7 @@ module Docs
     HTML
 
     version '3' do
-      self.release = '3.2.45'
+      self.release = '3.4.5'
       self.base_url = 'https://vuejs.org/'
       self.initial_paths = %w(guide/introduction.html)
       html_filters.push 'vue/entries_v3', 'vue/clean_html'
@@ -29,6 +29,7 @@ module Docs
       self.release = '2.7.14'
       self.base_url = 'https://v2.vuejs.org/v2/'
       self.initial_paths = %w(api/)
+      self.root_path = 'guide/'
       html_filters.push 'vue/entries', 'vue/clean_html'
     end
 

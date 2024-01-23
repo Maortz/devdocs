@@ -2,15 +2,16 @@ name: Generate documentation versions report
 on:
   schedule:
     - cron: '17 4 1 * *'
+  workflow_dispatch:
 
 jobs:
   report:
     runs-on: ubuntu-20.04
     if: github.repository == 'freeCodeCamp/devdocs'
     steps:
-    - uses: actions/checkout@dc323e67f16fb5f7663d20ff7941f27f5809e9b6 # v2.6.0
+    - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2.7.0
     - name: Set up Ruby
-      uses: ruby/setup-ruby@319066216501fbd5e2d568f14b7d68c19fb67a5d # v1.133.1
+      uses: ruby/setup-ruby@5daca165445f0ae10478593083f72ca2625e241d # v1.169.0
       with:
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - name: Generate report
